@@ -10,6 +10,7 @@ import (
 )
 
 func send(message, chatid string) {
+	// Executes otto.applescript to send the actual message to the iMessage chat
 	mybuddy := fmt.Sprintf("set mybuddy to a reference to text chat id \"%s\"", chatid)
 	send := fmt.Sprintf("send \"%s\" to mybuddy", strings.Replace(message, "\"", "\\\"", -1))
 	exec.Command("/usr/bin/osascript", "-e", "tell application \"Messages\"", "-e", mybuddy, "-e", send, "-e", "end tell").Run()
@@ -54,6 +55,7 @@ func writesettings(location string, Data Results) error {
 }
 
 func checkandwriteallowed(from, chatid string) bool {
+	// only lets same user call Otto 5 times in a row
 	allowedtorun := true
 	if from == Data.Chat.Lastperson {
 		Data.Chat.Lastamount += 1
@@ -74,5 +76,13 @@ func checkandwriteallowed(from, chatid string) bool {
 var Data Results
 
 func main() {
-
+	fulltext := strings.Split(os.Args[1:][0], "|~|")
+	message, from, chatid, settingslocation := fulltext[0], fulltext[1], fulltext[2], fulltext[3]
+	Data = readandparsesettings(settingslocation)
+	ottomessage := false
+	if strings.ToLower(message[:4]) != "" {
+		allowedtorun := checkandwriteallowed(from, chatid)
+		if allowedtorun {
+			hasntBeenCalled := true
+			for key, value := range ottomap
 }
