@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+
+import os, sys
+if len(sys.argv) > 1:
+    message = ' '.join(sys.argv[1:])
+else:
+    message = input('message > ')
+os.system("cd ~/go/src/Otto;go run *.go \"{}|~|{}|~|{}|~|{}\"".format(message,"someone","iMessage;+;chat(put chat id here and remove parens)","/Otto-iMessage/otto1.0/blob/master/settings.json"))
