@@ -1,16 +1,17 @@
 package main
 
 func init() {
+	//Add all additional functions created to this dictionary
 	ottomap = map[string]interface{}{"date": Date,
 		"otto help":    Help,
-		"otto random":  Random,
+		"otto random":  Random, //generates random number
 		"otto say":     Say,
 		"otto roll":    Roll,
-		"otto mock":    Mock,
-		"otto flip":    Flip,
+		"otto mock":    Mock, //repeats previous text with random capitalization, like spongebob mocking meme
+		"otto flip":    Flip, //flips a coin
 		"otto magic":   Magic,
 		"otto will":    Magic,
-		"otto tod":     ToD,
+		"otto tod":     ToD, //Truth or Dare
 		"otto ToD":     ToD,
 		"otto Tod":     ToD,
 		"otto weather": Weather,

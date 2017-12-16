@@ -83,6 +83,44 @@ func main() {
 	if strings.ToLower(message[:4]) != "" {
 		allowedtorun := checkandwriteallowed(from, chatid)
 		if allowedtorun {
+			phrase := message[4:]
 			hasntBeenCalled := true
-			for key, value := range ottomap
+			for key, value := range ottomap {
+				if strings.Contains(phrase, ottomap[key]) {
+					hasntBeenCalled = false
+					var result string
+
+					switch value.(type) {
+					case string:
+						result = value.(string)
+					case func(string, string) string:
+						result = value.(func(string, string) string)(phrase[len(key)+1:], Data.Chat.Lasttextperson)
+					case func(string) string:
+						result = value.(func(string) string)(phrase[len(key)+1:])
+					case func() string:
+						result = value.(func() string)()
+					default:
+						result = "This function was not created properly."
+					}
+					send(result, chatid)
+					break
+				}
+			}
+			if hasntBeenCalled {
+				send(Data.Errormessage, chatid)
+			}
+			err := writesettings(settingslocation, Data)
+			if err != nil {
+				panic(err)
+			}
+			if ottomessage != true {
+				Data.Chat.Lasttext = message
+				Data.Chat.Lasttextperson = from
+				err := writesettings(settingslocation, Data)
+				if err != nil {
+					panic(err)
+				}
+			}
+		}
+	}
 }
